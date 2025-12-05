@@ -69,20 +69,19 @@ sudo apt-get install -y --no-install-recommends curl gnupg2
 ### Step 2: Configure the production repository
 
 ```bash
-curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey |         sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg
+curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg
 ```
 
 ```bash
-curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list |         sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' |         sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
+curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list | sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' | sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
 ```
 
 ### Step 3: Update and install
 
 ```bash
 sudo apt-get update
-
 export NVIDIA_CONTAINER_TOOLKIT_VERSION=1.18.1-1
-sudo apt-get install -y         nvidia-container-toolkit=${NVIDIA_CONTAINER_TOOLKIT_VERSION}         nvidia-container-toolkit-base=${NVIDIA_CONTAINER_TOOLKIT_VERSION}         libnvidia-container-tools=${NVIDIA_CONTAINER_TOOLKIT_VERSION}         libnvidia-container1=${NVIDIA_CONTAINER_TOOLKIT_VERSION}
+sudo apt-get install -y nvidia-container-toolkit=${NVIDIA_CONTAINER_TOOLKIT_VERSION} nvidia-container-toolkit-base=${NVIDIA_CONTAINER_TOOLKIT_VERSION} libnvidia-container-tools=${NVIDIA_CONTAINER_TOOLKIT_VERSION} libnvidia-container1=${NVIDIA_CONTAINER_TOOLKIT_VERSION}
 ```
 
 ### Step 4: Configure Docker runtime
@@ -130,13 +129,13 @@ docker build -t ros2-cuda12:grasp .
 This starts a container that is removed when it exits. It enables GPU access, host networking, and X11 GUI support.
 
 ```bash
-docker run -it --rm         --gpus all         --runtime=nvidia         --net=host         --name <container-name>         -e DISPLAY=$DISPLAY         -e QT_X11_NO_MITSHM=1         -e XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR         -v /tmp/.X11-unix:/tmp/.X11-unix         -v $XDG_RUNTIME_DIR:$XDG_RUNTIME_DIR         <your-image-name>
+docker run -it --rm --gpus all --runtime=nvidia --net=host --name <container-name> -e DISPLAY=$DISPLAY -e QT_X11_NO_MITSHM=1 -e XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR -v /tmp/.X11-unix:/tmp/.X11-unix -v $XDG_RUNTIME_DIR:$XDG_RUNTIME_DIR <your-image-name>
 ```
 
 **Example:**
 
 ```bash
-docker run -it --rm         --gpus all         --runtime=nvidia         --net=host         --name ros2-test         -e DISPLAY=$DISPLAY         -e QT_X11_NO_MITSHM=1         -e XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR         -v /tmp/.X11-unix:/tmp/.X11-unix         -v $XDG_RUNTIME_DIR:$XDG_RUNTIME_DIR         ros2-cuda12:grasp
+docker run -it --rm --gpus all --runtime=nvidia --net=host --name ros2-test -e DISPLAY=$DISPLAY -e QT_X11_NO_MITSHM=1 -e XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR -v /tmp/.X11-unix:/tmp/.X11-unix -v $XDG_RUNTIME_DIR:$XDG_RUNTIME_DIR ros2-cuda12:grasp
 ```
 
 ---
@@ -146,13 +145,13 @@ docker run -it --rm         --gpus all         --runtime=nvidia         --net=ho
 Mount a local ROS 2 workspace into the container for development.
 
 ```bash
-docker run -it --rm         --gpus all         --runtime=nvidia         --net=host         --name <container-name>         -e DISPLAY=$DISPLAY         -e QT_X11_NO_MITSHM=1         -e XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR         -v /tmp/.X11-unix:/tmp/.X11-unix         -v $XDG_RUNTIME_DIR:$XDG_RUNTIME_DIR         -v /path/to/your/workspace:/home/cuda12/ros2_ws/<target>         <your-image-name>
+docker run -it --rm --gpus all --runtime=nvidia --net=host --name <container-name> -e DISPLAY=$DISPLAY -e QT_X11_NO_MITSHM=1 -e XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR -v /tmp/.X11-unix:/tmp/.X11-unix -v $XDG_RUNTIME_DIR:$XDG_RUNTIME_DIR -v /path/to/your/workspace:/home/cuda12/ros2_ws/<target> <your-image-name>
 ```
 
 **Example:**
 
 ```bash
-docker run -it --rm         --gpus all         --runtime=nvidia         --net=host         --name ros2-dev         -e DISPLAY=$DISPLAY         -e QT_X11_NO_MITSHM=1         -e XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR         -v /tmp/.X11-unix:/tmp/.X11-unix         -v $XDG_RUNTIME_DIR:$XDG_RUNTIME_DIR         -v ~/my_robot_ws:/home/cuda12/ros2_ws/src/somepkg         ros2-cuda12:grasp
+docker run -it --rm --gpus all --runtime=nvidia --net=host --name ros2-dev -e DISPLAY=$DISPLAY -e QT_X11_NO_MITSHM=1 -e XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR -v /tmp/.X11-unix:/tmp/.X11-unix -v $XDG_RUNTIME_DIR:$XDG_RUNTIME_DIR -v ~/my_robot_ws:/home/cuda12/ros2_ws/src/somepkg ros2-cuda12:grasp
 ```
 
 ---
@@ -164,7 +163,7 @@ If you want a container that persists (not removed on exit):
 1. **Run it in detached mode (`-d`) and remove `--rm`:**
 
    ```bash
-   docker run -it -d            --gpus all            --runtime=nvidia            --net=host            -e DISPLAY=$DISPLAY            -e QT_X11_NO_MITSHM=1            -e XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR            -v /tmp/.X11-unix:/tmp/.X11-unix            -v $XDG_RUNTIME_DIR:$XDG_RUNTIME_DIR            --name <container-name>            ros2-cuda12:grasp
+   docker run -it -d --gpus all --runtime=nvidia --net=host -e DISPLAY=$DISPLAY -e QT_X11_NO_MITSHM=1 -e XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR -v /tmp/.X11-unix:/tmp/.X11-unix -v $XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR --name <container-name> ros2-cuda12:grasp
    ```
 
 2. **Attach to the running container later:**
@@ -186,6 +185,14 @@ unset QT_QPA_PLATFORM
 rviz2
 ```
 
->This is often necessary if `QT_QPA_PLATFORM` was set to `offscreen` for headless tools such as Open3D.
+This is often necessary if `QT_QPA_PLATFORM` was set to `offscreen` for headless tools such as Open3D.
 
 ---
+
+## Access Running Container
+
+At any point, to open a shell into a running container:
+
+```bash
+docker exec -it <container-name> bash
+```
