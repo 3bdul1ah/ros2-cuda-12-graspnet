@@ -1,0 +1,33 @@
+services:
+  dev_ws:
+    image: ros2-cuda12:grasp
+    container_name: dev_ws
+    command: ["/bin/bash", "-c", "while sleep 1000; do :; done"]
+    stdin_open: true
+    tty: true
+    network_mode: host
+    runtime: nvidia
+    
+    environment:
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
+      - XDG_RUNTIME_DIR=${XDG_RUNTIME_DIR}
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=all
+      - SHELL=/bin/bash
+    
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - ${XDG_RUNTIME_DIR}:${XDG_RUNTIME_DIR}
+      - ../ros2_ws:/home/cuda12/ros2_ws
+      - ../testing:/home/cuda12/testing
+      - ../contact_graspnet_pytorch:/home/cuda12/contact_graspnet_pytorch
+      - ../rai:/home/cuda12/rai
+    
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]

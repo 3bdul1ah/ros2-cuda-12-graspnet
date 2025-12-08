@@ -1,0 +1,9 @@
+   
+    sudo apt update (must when container starts)
+    sudo apt install python3-venv
+    python3 -m venv .venv 
+    pip install rai-core
+    sudo apt install ros-${ROS_DISTRO}-rai-interfaces
+
+
+    pip install ultralytics
