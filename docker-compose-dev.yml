@@ -1,0 +1,45 @@
+services:
+  dev_ws_test:
+    image: ros2-cuda12:grasp
+    container_name: devolopment
+
+    command: /bin/bash
+    stdin_open: true
+    tty: true
+
+    privileged: true
+    network_mode: host
+    ipc: host
+    runtime: nvidia
+
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+
+    environment:
+      DISPLAY: ${DISPLAY}
+      QT_X11_NO_MITSHM: "1"
+      XDG_RUNTIME_DIR: ${XDG_RUNTIME_DIR}
+      NVIDIA_VISIBLE_DEVICES: all
+      NVIDIA_DRIVER_CAPABILITIES: all
+      SHELL: /bin/bash
+      ROS_DOMAIN_ID: "0"
+
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - ${XDG_RUNTIME_DIR}:${XDG_RUNTIME_DIR}
+      - /dev:/dev
+      - /home/aric/Abdullah/ros2_ws:/home/cuda12/ros2_ws
+      - /home/aric/Abdullah/testing:/home/cuda12/testing
+      - /home/aric/Abdullah/rai:/home/cuda12/rai
+
+    ulimits:
+      memlock: -1
+      stack: 67108864
+      nofile:
+        soft: 1048576
+        hard: 1048576
