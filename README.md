@@ -1,12 +1,18 @@
-# ROS2 Humble + CUDA 12.2 + Contact-GraspNet Docker
+# Ubuntu 22.04 · ROS 2 Humble · CUDA 12.2 · Contact-GraspNet · SAM3 Docker
 
-Docker environment for robotics development with ROS2 Humble, CUDA support, PyTorch, and Contact-GraspNet.
+Minimal Docker environment for **GPU-accelerated robotics research** with ROS 2 Humble, CUDA, Contact-GraspNet, and SAM3.
+
+---
 
 ## Prerequisites
 
-- Docker
-- NVIDIA Docker Runtime (`nvidia-docker2`)
-- NVIDIA GPU with CUDA support
+**Hardware**
+- NVIDIA GPU
+
+**Software**
+- [Docker](https://docs.docker.com/engine/install/ubuntu/)
+- [NVIDIA Container Toolkit – Install](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html#with-apt-ubuntu-debian)
+- [NVIDIA Container Toolkit – Configure Docker](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html#configuring-docker)
 
 ## Build
 
@@ -192,4 +198,10 @@ docker compose -f docker/docker-compose.yml up -d
 ```bash
 docker ps        # Running
 docker ps -a     # All
+```
+
+## RviZ
+if rviz2 gui is not wokring, use the following command:
+```bash
+unset QT_QPA_PLATFORM
 ```
